@@ -47,12 +47,11 @@ contract FundMe {
         _;
     }
     function withdraw() payable onlyOwner public {
-        require(msg.sender == owner);
         payable(msg.sender).transfer(address(this).balance);
-        for (uint256 fidx = 0; i < funders.length;  fidx++){
-            address funderAdrs = funders[fidx];
+        for (uint256 i = 0; i < funders.length;  i++){
+            address funderAdrs = funders[i];
             addressToAmountFunded[funderAdrs] = 0;
         }
-        funders = new address[];
+        funders = new address[](0);
     }
 }
