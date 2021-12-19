@@ -21,15 +21,17 @@ contract FundMe {
     }
 
     function getPrice() public view returns (uint256) {
-        (uint80 roundId,
-        int256 answer,
-        uint256 startedAt,
-        uint256 updatedAt,
-        uint80 answeredInRound
-    ) = priceFeed.latestRoundData();
-    return uint256(answer);
+        (,int256 answer,,,) = priceFeed.latestRoundData();
+    return uint256(answer * 10**10);
     }
+
     function getVersion() public view returns (uint256) {
         return priceFeed.version();
+    }
+
+    function getConversionRate(uint256 ethAmount) public view returns (uint256) {
+        uint256 ethPrice = getPrice();
+        uint256 ethAmountInUsd = (ethPrice * ethAmount) / (10**18);
+        return ethAmountInUsd;
     }
 }
