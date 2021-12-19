@@ -7,15 +7,17 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract FundMe {
     
     AggregatorV3Interface internal priceFeed;
-
+    address public owner;
     constructor() {
-        priceFeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        owner = msg.sender;
+        // priceFeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);
     }
 
     mapping(address => uint256) public addressToAmountFunded;
 
     function fund() public payable {
-        uint256 minimumUSD = 50 * 10 ** 18;
+        uint256 minimumUSD = 5 * 10 ** 18;
         require(minimumUSD <= getConversionRate(msg.value), "You need more eth");
         addressToAmountFunded[msg.sender] += msg.value;
         // What is the eth to usd conversion rate.
@@ -35,5 +37,14 @@ contract FundMe {
         uint256 ethPrice = getPrice();
         uint256 ethAmountInUsd = (ethPrice * ethAmount) / (10**18);
         return ethAmountInUsd;
+    }
+
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
+    }
+    function withdraw() payable onlyOwner public {
+        require(msg.sender == owner);
+        payable(msg.sender).transfer(address(this).balance);
     }
 }
