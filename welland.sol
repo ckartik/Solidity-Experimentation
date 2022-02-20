@@ -72,25 +72,4 @@ contract WellandShop {
         // the actual ETH/USD conversation rate, after adjusting the extra 0s.
         return ethAmountInUsd;
     }
-    // function fund() public payable {
-    // 	// 18 digit number to be compared with donated amount 
-    //     uint256 minimumUSD = 50 * 10 ** 18;
-    //     //is the donated amount less than 50USD?
-    //     require(getConversionRate(msg.value) >= minimumUSD, "You need to spend more ETH!");
-    //     //if not, add to mapping and funders array
-    //     addressToAmountFunded[msg.sender] += msg.value;
-    //     funders.push(msg.sender);
-    // }
-    // modifier onlyOwner {
-    //     require(msg.sender == owner);
-    //     _;
-    // }
-    // function withdraw() payable onlyOwner public {
-    //     payable(msg.sender).transfer(address(this).balance);
-    //     for (uint256 i = 0; i < funders.length;  i++){
-    //         address funderAdrs = funders[i];
-    //         addressToAmountFunded[funderAdrs] = 0;
-    //     }
-    //     funders = new address[](0);
-    // }
 }
